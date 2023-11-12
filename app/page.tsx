@@ -1,8 +1,8 @@
-import AcmeLogo from "./ui/acme-logo";
-import Styles from "./ui/home.module.css";
-import Link from "next/link";
-import { lusitana } from "./ui/fonts";
 import Image from "next/image";
+import Link from "next/link";
+import AcmeLogo from "./ui/acme-logo";
+import { lusitana } from "./ui/fonts";
+import Styles from "./ui/home.module.css";
 
 export default function Page() {
   return (

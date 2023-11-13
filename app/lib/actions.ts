@@ -1,5 +1,6 @@
 "use server";
 import { sql } from "@vercel/postgres";
+import { signIn } from "@auth";
 import { revalidatePath } from "next/cache";
 import { RedirectType, redirect } from "next/navigation";
 import { z } from "zod";
@@ -61,7 +62,7 @@ export async function createInvoice(prevState: State, formData: FormData) {
 
   //*Since you're updating the data displayed in the invoices route, you want to clear this cache and trigger a new request to the server. You can do this with the revalidatePath function from Next.js:
   revalidatePath("dashboard/invoices");
-  redirect("dashboard/invoices", RedirectType.replace);
+  redirect("/dashboard/invoices", RedirectType.replace);
 }
 
 const UpdateInvoice = InvoiceSchema.omit({ date: true, id: true });
@@ -86,7 +87,7 @@ export async function updateInvoice(id: string, formData: FormData) {
   }
 
   revalidatePath("dashboard/invoices");
-  redirect("dashboard/invoices", RedirectType.replace);
+  redirect("/dashboard/invoices", RedirectType.replace);
 }
 
 export async function deleteInvoice(id: string | number) {
@@ -104,5 +105,19 @@ export async function deleteInvoice(id: string | number) {
     return {
       message: "Database Error: Failed to Delete Invoice",
     };
+  }
+}
+
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData
+) {
+  try {
+    await signIn("credentials", Object.fromEntries(formData));
+  } catch (err) {
+    if ((err as Error).message.includes("CredentialsSignin")) {
+      return "CredentialsSignin";
+    }
+    throw err;
   }
 }

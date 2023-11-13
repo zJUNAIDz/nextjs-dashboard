@@ -98,14 +98,12 @@ export async function deleteInvoice(id: string | number) {
   DELETE FROM invoices 
   WHERE id = ${id}
   `;
-    return {
-      message: "Deleted Invoice Sussessfully.",
-    };
   } catch (err) {
     return {
       message: "Database Error: Failed to Delete Invoice",
     };
   }
+  revalidatePath("/dashboard/invoices");
 }
 
 export async function authenticate(

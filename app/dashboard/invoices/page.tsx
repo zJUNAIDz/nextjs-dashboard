@@ -5,7 +5,14 @@ import Table from "@/app/ui/invoices/table";
 import Search from "@/app/ui/search";
 import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
 import { fetchInvoicesPages } from "@app/lib/data";
+import { Metadata } from "next";
 import { Suspense } from "react";
+
+//* metadata object
+export const metadata: Metadata = {
+  title: "Invoices", //* It will replace the %s in layout title
+};
+
 export default async function Page({
   searchParams,
 }: {
